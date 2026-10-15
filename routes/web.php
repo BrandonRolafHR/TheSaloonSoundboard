@@ -19,4 +19,8 @@ Route::get('/about', function () {
 })->name('about');
 
 /* Classes */
-Route::get('/audio/{name}', [AudioController::class, 'show']);
+Route::resource('audio', AudioController::class)->name('audio.index');
+
+//Route::get('/audio/create', [AudioController::class, 'create']);
+//Route::post('audio', [AudioController::class, 'store'])->name('audio.store');
+//Route::get('/audio/{name}', [AudioController::class, 'show']);
