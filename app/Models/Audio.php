@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Audio extends Model
 {
-    protected function audio()
+    public function user()
     {
-        $audio = new Audio();
-        $audio->title = 'Scheet';
-        $audio->description = 'Siebe liet een scheet en dat was grappig.';
+        return $this->belongsTo(User::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
     }
 }

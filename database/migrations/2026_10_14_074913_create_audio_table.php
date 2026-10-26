@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->string('title', 65);
             $table->string('audio_url', 150);
             $table->string('description', 140);
-            $table->date('date');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

@@ -11,20 +11,20 @@ class AudioController extends Controller
     public function index()
     {
         $audio = Audio::all();
+
+        return view('home', compact('audio'));
     }
 
     public function show(string $name): View
     {
-        $audio = Audio::find();
-        {
-            return view('audio.name', compact('audio.name'));
-        }
+        $audio = Audio::findOrFail($name);
+
+        return view('audio.show', compact('audio'));
     }
 
     public function create()
     {
         return view('audio.create');
-
     }
 
     public function store(Request $request)
@@ -32,16 +32,56 @@ class AudioController extends Controller
         $request->validate([
             'title' => 'required|min:3',
             'description' => 'required|min:3',
+            'audio' => 'required|file|mimes:mp3|max:20480'
         ]);
 
         $audio = new Audio();
+
         $audio->title = $request->input('title');
         $audio->description = $request->input('description');
-        $audio->audio_url = 'tijdelijk';
+        $audio->audio_url = $request->file('audio')->store('audio', 'public');
         $audio->user_id = '1';
-        $audio->date = '14-12-2204';
 
         $audio->save();
-        return redirect()->route('products.index');
+
+        return redirect()->route('audio.index');
+    }
+
+    public function edit(string $id): View
+    {
+        $audio = Audio::findOrFail($id);
+
+        return view('audio.edit', compact('audio'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'title' => 'required|min:3',
+            'description' => 'required|min:3',
+            'audio' => 'nullable|file|mimes:mp3|max:20480'
+        ]);
+
+        $audio = Audio::findOrFail($id);
+
+        $audio->title = $request->input('title');
+        $audio->description = $request->input('description');
+
+        if ($request->hasFile('audio')) {
+            $audio->audio_url = $request->file('audio')->store('audio', 'public');
+        }
+
+        $audio->save();
+
+        return redirect()->route('audio.index');
+    }
+
+    public function destroy(string $id)
+    {
+        $audio = Audio::findOrFail($id);
+
+        $audio->delete();
+
+        return redirect()->route('audio.index');
     }
 }
