@@ -84,4 +84,11 @@ class AudioController extends Controller
 
         return redirect()->route('audio.index');
     }
+
+    public function manage()
+    {
+        $audio = Audio::where('user_id', 1)->get();
+
+        return view('manage', compact('audio'));
+    }
 }

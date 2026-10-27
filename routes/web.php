@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 /* Pages */
 Route::get('/', [AudioController::class, 'index'])->name('home');
 
-Route::get('/manage', function () {
-    return view('manage');
-})->name('manage');
+Route::get('/manage', [AudioController::class, 'manage'])->name('manage');
 
 Route::get('/about', function () {
     return view('about');
@@ -19,3 +17,8 @@ Route::get('/audio', [AudioController::class, 'index'])->name('audio.index');
 Route::get('/audio/create', [AudioController::class, 'create'])->name('audio.create');
 Route::post('/audio', [AudioController::class, 'store'])->name('audio.store');
 Route::get('/audio/{name}', [AudioController::class, 'show'])->name('audio.show');
+Route::get('/audio/{id}/edit', [AudioController::class, 'edit'])->name('audio.edit');
+Route::put('/audio/{id}', [AudioController::class, 'update'])->name('audio.update');
+Route::delete('/audio/{id}', [AudioController::class, 'destroy'])->name('audio.destroy');
+
+
