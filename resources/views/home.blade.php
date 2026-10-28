@@ -9,6 +9,12 @@
                     <h2 class="text-lg font-semibold">{{ $item->title }}</h2>
                     <p class="mt-2 text-sm text-gray-600">{{ $item->description }}</p>
                 </div>
+                <form action="{{ route('audio.favorite', $item->id) }}" method="POST">
+                    @csrf
+                    <button type="submit">
+                        Favorite
+                    </button>
+                </form>
             @endforeach
         </div>
     </div>
